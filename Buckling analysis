@@ -1,5 +1,28 @@
-#buckling analysis
+#skin buckling
+import math
+import matplotlib.pyplot as plt
+import numpy as np
 
+#   GEOMETRIC PARAMETERS #
+E_skin = 68900000000
+v_skin= 0.33
+
+#  inputs  #
+k_c = float(input("Enter k_c: "))
+b = float(input("Enter b: "))
+t_skin= np.linspace(0,0.01,100)
+
+
+def F_cr(t_skin):
+   F_cr =  (((math.pi)**2) * k_c * E_skin)*(t_skin/b)**2/(12*(1-v_skin**2))
+   return F_cr
+#print(t_skin)
+#print(F_cr(t_skin))
+plt.plot(t_skin, F_cr(t_skin))
+plt.title("Skin Buckling")
+plt.xlabel("t_skin (m)")
+plt.ylabel("Force (N)")
+plt.show()
 
 
 
