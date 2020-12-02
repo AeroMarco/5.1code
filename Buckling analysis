@@ -3,6 +3,32 @@ import math
 import matplotlib.pyplot as plt
 import numpy as np
 
+#b = 0.5 * 5.05
+
+# INPUTS ARE
+k1 = 0.1 / 0.5  # input
+k2 = 0.0651/ 0.5  # input
+a = k1 * b
+c = k2 * b
+b_0 = 0.5 * 5.05  # input
+b_1 = 0.5 * 1.45  # input
+span = 29.24  # input
+E = 69 * 10 ** 9  # input
+G = 24 * 10 ** 9  # input (al)
+
+d = abs(a - c)
+e = math.sqrt(d ** 2 + b ** 2)
+beta = math.atan(d / b)
+t = 0.001  # input
+h = 0.015  # input
+Ai = 0.00016 # input t = 2.0 mm, 3.5 cm x 3.5 cm
+N1 = int(3)  # input(nb of top stringer)
+N2 = int(3)  # input(nb of bot stringers)
+A = 0.5 * (a + c) * b
+n=int(100)
+
+
+
 #   GEOMETRIC PARAMETERS #
 E_skin = 68900000000
 v_skin= 0.33
