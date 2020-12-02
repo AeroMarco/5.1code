@@ -33,29 +33,35 @@ def side_length(half_span_percentage):
     angled_side=math.sqrt(((k1-k2)*side)**2 + side**2)
     return side,angled_side
 
-#   GEOMETRIC PARAMETERS #
-E_skin = 68900000000
-v_skin= 0.33
-
-#  inputs  #
-k_c = float(input("Enter k_c: "))
-b = float(input("Enter b: "))
-t_skin= np.linspace(0,0.01,100)
 
 
-def F_cr(t_skin):
-   F_cr =  (((math.pi)**2) * k_c * E_skin)*(t_skin/b)**2/(12*(1-v_skin**2))
-   return F_cr
-#print(t_skin)
-#print(F_cr(t_skin))
-plt.plot(t_skin, F_cr(t_skin))
+t_skin = 1.5 # skin pannel thickness [mm]
+b = np.linspace(1,5,100) #span of the wing panel
+
+# Formula for the buckling coefficient #
+def k_c(b):
+   if b <= 3.655:
+      k_c = 2
+   elif b <= 7.31:
+      k_c = 3
+   elif b <= 10.965:
+      k_c = 4
+   elif b <= 14.62:
+      k_c = 6
+   elif
+   return k_c
+
+# Formula for the stress #
+def Stress(b, k_c):
+   Stress =  ((((math.pi)**2) * k_c * E_skin)*(t_skin/b)**2/(12*(1-v_skin**2)))
+   return Stress
+
+# Plot #
+plt.plot(b, Stress(b, k_c))
 plt.title("Skin Buckling")
-plt.xlabel("t_skin (m)")
-plt.ylabel("Force (N)")
+plt.xlabel("b (m)")
+plt.ylabel("Stress (N/m^2)")
 plt.show()
-
-
-
 
 
 
