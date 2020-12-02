@@ -27,7 +27,11 @@ N2 = int(3)  # input(nb of bot stringers)
 A = 0.5 * (a + c) * b
 n=int(100)
 
-
+#DIVIDE WING BOX IN 4 SECTIONS
+def side_length(half_span_percentage):
+    side=b_0-(b_0-b_1)*half_span_percentage
+    angled_side=math.sqrt(((k1-k2)*side)**2 + side**2)
+    return side,angled_side
 
 #   GEOMETRIC PARAMETERS #
 E_skin = 68900000000
