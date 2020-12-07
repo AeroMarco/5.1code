@@ -1,0 +1,61 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Mon Nov 30 16:13:15 2020
+
+@author: Marco
+"""
+import math
+#will depend on the specific stringer
+k= 1/4
+Kfactor = k
+
+#find e from data
+E = 1
+#find I  basically find centroid then find 2 rectangles then do parallel axis
+#I is in mm4 
+Ixxtotal  = 0
+Ixx1 = 0
+Ixx2 = 0
+
+"""
+Iyytotal = 0
+Iyy1 = 0
+Iyy2 = 0
+"""
+
+#Inputs in mm
+totalheight = 1.1
+totalwidth = 1.1
+topwidth = 0.3
+bottomheight = 0.3
+
+
+#values1 are for the top left rectangle
+#distances will be from the bottomleft corner in cartesian coordinates
+# +ve x to the right
+# +ve y upwards
+centroidx1 = topwidth/2
+centroidy1 = ((totalheight - bottomheight)/2)+ bottomheight
+Area1 = topwidth*(totalheight - bottomheight)
+#values2 are for the bottom middle rectangle
+centroidx2 = totalwidth/2
+centroidy2 = bottomheight/2
+Area2 = bottomheight* totalwidth
+
+
+centroidxtot = ((Area1*centroidx1) + (Area2*centroidx2))/2
+centroidytot = ((Area1*centroidy1) + (Area2*centroidy2))/2
+#rectangle bh3/12
+Ixx1 = (topwidth*((totalheight - bottomheight)**3))/12
+Ixx2 = (totalwidth*((bottomheight)**3))/12
+#
+Ixxtotal = (Ixx1 + Area1*((centroidy1-centroidxtot)**2)) + (Ixx2 + Area2*((centroidy2-centroidxtot)**2))
+
+L = 1
+
+
+criticalstress = ((Kfactor) * (math.pi**2) * (E) * (Ixxtotal))/ ((L)**2)
+
+safetymargin = 0.3
+
+criticalsafety = criticalstress * (1- safetymargin)
