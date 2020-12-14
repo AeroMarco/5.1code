@@ -8,22 +8,24 @@ import math
 #will depend on the specific stringer
 k= 1/4
 Kfactor = k
-
+#stress applied in most critical bay (most stress/L^2)
+criticalapply = 400
 #find e from data
 E = 68.9*(10**9)
 #find I  basically find centroid then find 3 rectangles then do parallel axis
 #the format for z stringer is bottom left mid and then top right
 #I is in mm4 
+#checkboth Ixx and Iyy toget the smaller one
 Ixxtotal  = 0
 Ixx1 = 0
 Ixx2 = 0
 Ixx3 = 0
 
-"""
 Iyytotal = 0
 Iyy1 = 0
 Iyy2 = 0
-"""
+Iyy3 = 0
+
 
 #Inputs in mm
 totalheight = 100
@@ -64,17 +66,32 @@ centroidytot = ((Area1*centroidy1) + (Area2*centroidy2) +(Area3*centroidy3))/(Ar
 Ixx1 = (topwidth*((topheight)**3))/12
 Ixx2 = (midwidth*((midheight)**3))/12
 Ixx3 = (bottomwidth*((bottomheight)**3))/12
-#
-Ixxtotal = (Ixx1 + Area1*((centroidy1-centroidxtot)**2)) + (Ixx2 + Area2*((centroidy2-centroidxtot)**2)) +(Ixx3 + Area3*((centroidy3-centroidxtot)**2))
-#convert Ixx to m4
-Ixxtotal = Ixxtotal/((10**3)**4)
+
+Ixxtotal = (Ixx1 + Area1*((centroidy1-centroidytot)**2)) + (Ixx2 + Area2*((centroidy2-centroidytot)**2)) +(Ixx3 + Area3*((centroidy3-centroidytot)**2))
+
+
+#for Iyy rectangle hb3/12
+Iyy1 = (topheight*((topwidth)**3))/12
+Iyy2 = (midheight*((midwidth)**3))/12
+Iyy3 = (bottomheight*((bottomwidth)**3))/12
+
+Iyytotal = (Iyy1 + Area1*((centroidx1-centroidxtot)**2)) + (Ixx2 + Area2*((centroidx2-centroidxtot)**2)) +(Ixx3 + Area3*((centroidx3-centroidxtot)**2))
+
+
+Itotal = min(Iyytotal,Ixxtotal)
+#convert I to m4
+Itotal = Itotal/((10**3)**4)
 L = 1
 
 
-criticalstress = ((Kfactor) * (math.pi**2) * (E) * (Ixxtotal))/ ((L)**2)
+criticalstress = ((Kfactor) * (math.pi**2) * (E) * (Itotal))/ ((L)**2)
 
 safetymargin = 0.3
 
 criticalsafety = criticalstress * (1- safetymargin)
 
 print(round(criticalsafety,6) , " is the critical stress in Pa ")
+
+Margin = criticalapply /criticalsafety
+
+print(Margin)
