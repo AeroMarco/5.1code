@@ -10,12 +10,14 @@ k= 1/4
 Kfactor = k
 
 #find e from data
-E = 1
-#find I  basically find centroid then find 2 rectangles then do parallel axis
+E = (10**9)
+#find I  basically find centroid then find 3 rectangles then do parallel axis
+#the format for z stringer is bottom left mid and then top right
 #I is in mm4 
 Ixxtotal  = 0
 Ixx1 = 0
 Ixx2 = 0
+Ixx3 = 0
 
 """
 Iyytotal = 0
@@ -24,33 +26,48 @@ Iyy2 = 0
 """
 
 #Inputs in mm
-totalheight = 1.1
-totalwidth = 1.1
-topwidth = 0.3
-bottomheight = 0.3
+totalheight = 100
+totalwidth = 80
+topwidth = 40
+topheight = 20
+midwidth = 10
+midheight = 60
+bottomwidth = 40
+bottomheight = 20
 
 
-#values1 are for the top left rectangle
+#values1 are for the top rectangle
 #distances will be from the bottomleft corner in cartesian coordinates
+#shape is for a z stringer of type
+#  _   val1
+#_|    val2
+#   val3
 # +ve x to the right
 # +ve y upwards
-centroidx1 = topwidth/2
-centroidy1 = ((totalheight - bottomheight)/2)+ bottomheight
-Area1 = topwidth*(totalheight - bottomheight)
-#values2 are for the bottom middle rectangle
-centroidx2 = totalwidth/2
-centroidy2 = bottomheight/2
-Area2 = bottomheight* totalwidth
+centroidx1 = totalwidth - topwidth/2
+centroidy1 = totalheight - topheight/2
+Area1 = topwidth*topheight
+#values2 are for the middle rectangle
+centroidx2 = bottomwidth - midwidth/2
+centroidy2 = bottomheight + midheight/2
+Area2 = midwidth * midheight
+#values3 are for the bottom rectangle
+
+centroidx3 = bottomwidth/2
+centroidy3 = bottomheight/2
+Area3 = bottomheight* bottomwidth
 
 
-centroidxtot = ((Area1*centroidx1) + (Area2*centroidx2))/2
-centroidytot = ((Area1*centroidy1) + (Area2*centroidy2))/2
+centroidxtot = ((Area1 * centroidx1) + (Area2 * centroidx2) +(Area3 * centroidx3) )/ (Area1 + Area2 + Area3)
+centroidytot = ((Area1*centroidy1) + (Area2*centroidy2) +(Area3*centroidy3))/(Area1 + Area2 + Area3)
 #rectangle bh3/12
-Ixx1 = (topwidth*((totalheight - bottomheight)**3))/12
-Ixx2 = (totalwidth*((bottomheight)**3))/12
+Ixx1 = (topwidth*((topheight)**3))/12
+Ixx2 = (midwidth*((midheight)**3))/12
+Ixx3 = (bottomwidth*((bottomheight)**3))/12
 #
-Ixxtotal = (Ixx1 + Area1*((centroidy1-centroidxtot)**2)) + (Ixx2 + Area2*((centroidy2-centroidxtot)**2))
-
+Ixxtotal = (Ixx1 + Area1*((centroidy1-centroidxtot)**2)) + (Ixx2 + Area2*((centroidy2-centroidxtot)**2)) +(Ixx3 + Area3*((centroidy3-centroidxtot)**2))
+#convert Ixx to m4
+Ixxtotal = Ixxtotal/((10**3)**4)
 L = 1
 
 
@@ -59,3 +76,6 @@ criticalstress = ((Kfactor) * (math.pi**2) * (E) * (Ixxtotal))/ ((L)**2)
 safetymargin = 0.3
 
 criticalsafety = criticalstress * (1- safetymargin)
+
+print(round(criticalsafety,6) , " is the critical stress in Pa ")
+print(((math.pi**2)*(70*(10**9))*(2.16*(10**8)))/4.4 )
