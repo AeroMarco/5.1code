@@ -10,7 +10,7 @@ k= 1/4
 Kfactor = k
 
 #find e from data
-E = (10**9)
+E = 68.9*(10**9)
 #find I  basically find centroid then find 3 rectangles then do parallel axis
 #the format for z stringer is bottom left mid and then top right
 #I is in mm4 
@@ -78,4 +78,3 @@ safetymargin = 0.3
 criticalsafety = criticalstress * (1- safetymargin)
 
 print(round(criticalsafety,6) , " is the critical stress in Pa ")
-print(((math.pi**2)*(70*(10**9))*(2.16*(10**8)))/4.4 )
