@@ -86,7 +86,7 @@ L = 1
 
 criticalstress = ((Kfactor) * (math.pi**2) * (E) * (Itotal))/ ((L)**2)
 
-safetymargin = 0.3
+safetymargin = 0.2
 
 criticalsafety = criticalstress * (1- safetymargin)
 
